@@ -1,17 +1,14 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   View,
   StyleSheet,
   SafeAreaView,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Header from '../components/Header';
 import {colors} from '../utils/colors';
 import CustomInput from '../components/CustomInput';
-import Toast from 'react-native-simple-toast';
 import {
   horizontalScale,
   moderateScale,
@@ -26,7 +23,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {Errors, Screen1Props} from '../types/propsTypes';
 import {useDispatch} from 'react-redux';
 import {onPostCampaignDetails} from '../redux/ducks/postCampaign';
-import {useAppSelector} from '../utils/hooks';
 
 export default function Screen1({navigation}: Screen1Props) {
   const [name, setName] = useState('');
@@ -34,9 +30,7 @@ export default function Screen1({navigation}: Screen1Props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentStep, setCurrentStep] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<any>();
-  const getCampaignData = useAppSelector(state => state.postCampaign);
 
   function onClosedModal() {
     setModalVisible(false);
@@ -57,22 +51,11 @@ export default function Screen1({navigation}: Screen1Props) {
     const validate = Validation();
     setErrors(validate);
     if (!validate.name && !validate.objective) {
-      setLoading(true);
       dispatch(onPostCampaignDetails(name, objective));
-    }
-  }
-
-  useEffect(() => {
-    if (getCampaignData.called) {
       setCurrentStep(true);
-      setLoading(false);
-      const {message} = getCampaignData;
-      Toast.show(message);
-      console.log('ERRRRRRROOOOOOOORRR');
-
       navigation.navigate('Screen2');
     }
-  }, [getCampaignData]);
+  }
 
   function onSelectedObjective(value: string) {
     setObjective(value);
@@ -89,7 +72,6 @@ export default function Screen1({navigation}: Screen1Props) {
           isCompleted1stStep={currentStep}
         />
       </View>
-      {loading && <ActivityIndicator size={30} color={'#fff'} />}
       <View style={styles.inputContainer}>
         <CustomInput
           events="auto"
@@ -99,6 +81,7 @@ export default function Screen1({navigation}: Screen1Props) {
           onChangeText={(value: string) => setName(value)}
           editable={true}
           error={errors.name}
+          icon={''}
         />
       </View>
       <TouchableOpacity
@@ -112,6 +95,7 @@ export default function Screen1({navigation}: Screen1Props) {
           value={objective}
           editable={false}
           error={errors.objective}
+          icon={''}
         />
       </TouchableOpacity>
       <View style={styles.button}>

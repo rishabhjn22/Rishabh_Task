@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  // ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ProgressSteps from '../components/ProgressSteps';
@@ -28,7 +27,6 @@ export default function Screen2({navigation}: Screen2Props) {
   const getCampaignData = useAppSelector(state => state.postCampaign);
   const [errors, setErrors] = useState<Screen2Errors>({});
   const [filePath, setFilePath] = useState('');
-  // const [loading, setLoading] = useState(false);
   // const getStep2 = useAppSelector(state => state.step2);
   // const dispatch = useDispatch<any>();
 
@@ -46,7 +44,7 @@ export default function Screen2({navigation}: Screen2Props) {
     }
   }, [getCampaignData]);
 
-  const onCameraPress = () => {
+  function onCameraPress() {
     launchImageLibrary(
       {
         mediaType: 'photo',
@@ -75,7 +73,7 @@ export default function Screen2({navigation}: Screen2Props) {
         }
       },
     );
-  };
+  }
 
   function validURL(str: string) {
     var pattern = new RegExp(
@@ -100,9 +98,6 @@ export default function Screen2({navigation}: Screen2Props) {
         validationErrors.url = 'Please enter valid url';
       }
     }
-    // if (filePath.length === 0) {
-    //   Toast.show('Please Upload Image');
-    // }
 
     return validationErrors;
   }
@@ -111,7 +106,6 @@ export default function Screen2({navigation}: Screen2Props) {
     const validate = validateInput();
     setErrors(validate);
     if (!validate.name && !validate.url) {
-      //&& validate.filepath
       // setLoading(true);
       // dispatch(onStep2(name, url, filePath));
       navigation.navigate('Screen3');
@@ -135,7 +129,6 @@ export default function Screen2({navigation}: Screen2Props) {
           isCompleted1stStep={true}
         />
       </View>
-      {/* {loading && <ActivityIndicator size={30} color={'#fff'} />} */}
       <View style={styles.bgContainer}>
         <View style={styles.inputContainer}>
           <CustomInput
@@ -179,7 +172,7 @@ export default function Screen2({navigation}: Screen2Props) {
         </TouchableOpacity>
 
         <View style={styles.button}>
-          <CustomButton onPress={() => onSubmit()} />
+          <CustomButton onPress={onSubmit} />
         </View>
       </View>
     </SafeAreaView>

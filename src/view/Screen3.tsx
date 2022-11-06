@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {colors} from '../utils/colors';
 import {useDispatch} from 'react-redux';
@@ -30,13 +37,16 @@ export default function Screen3({navigation}: Screen3Props) {
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [status, setStatus] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dispatch(onGetDetails());
+    setLoading(true);
   }, []);
 
   useEffect(() => {
     if (getDetails.called) {
+      setLoading(false);
       const {data} = getDetails;
       if (data) {
         setTitle(data.name);
@@ -89,6 +99,7 @@ export default function Screen3({navigation}: Screen3Props) {
           </View>
         </View>
       </View>
+      {loading && <ActivityIndicator size={30} color={'#fff'} />}
 
       <View style={styles.dataCont}>
         {image && (
