@@ -6,6 +6,7 @@ import {
   Text,
   Pressable,
   Button,
+  Keyboard,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -80,6 +81,7 @@ export default function Form() {
   };
 
   function onPressRadio(id: string) {
+    Keyboard.dismiss();
     setGender(id);
     const updatedGenders = genders.map(value => ({
       ...value,
@@ -136,6 +138,7 @@ export default function Form() {
   }
 
   function onSubmit() {
+    Keyboard.dismiss();
     const isValid = validateInputs();
     if (isValid) {
       setLoading(true);
