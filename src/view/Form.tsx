@@ -95,7 +95,6 @@ export default function Form() {
         zipcode.zipcode.startsWith(value),
       );
       if (matchingZipcodes.length > 0) {
-        console.log(matchingZipcodes, 'matchingZipcodes');
         setCity(matchingZipcodes[0].city);
         setState(matchingZipcodes[0].state);
       } else {
