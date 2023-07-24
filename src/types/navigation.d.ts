@@ -1,3 +1,0 @@
-type RootStackParamList = {
-  Form: undefined;
-};
